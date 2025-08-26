@@ -1,9 +1,10 @@
 # Jekyll 配置
-theme: jekyll-theme-minimal
+theme: jekyll-theme-cayman  # 单栏全宽主题，无侧边栏
 title: Awesome Solana Libraries
 description: 全面的 Solana 生态系统知识库
 lang: zh-CN
 encoding: UTF-8
+show_downloads: false  # 不显示下载按钮
 
 # 中文支持
 markdown: kramdown
