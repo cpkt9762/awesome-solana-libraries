@@ -66,6 +66,37 @@
 - **Agave生态系统**: 新的多客户端架构基础
 - **版本兼容性**: 保持向后兼容，但需要更新依赖路径
 
+#### Agave 完整组件生态
+
+<details>
+<summary>Agave 核心组件详细列表（点击展开）</summary>
+
+| 组件名称 | 版本 | 功能描述 | 使用场景 |
+|----------|------|----------|----------|
+| **agave-validator** | 2.3.7 | 主要验证器二进制文件 | 运行验证器节点 |
+| **agave-watchtower** | 2.3.7 | 监控集群健康状态 | 集群监控、告警 |
+| **agave-test-validator** | 2.3.7 | 本地测试验证器工具 | 本地开发测试 |
+| **agave-install** | 2.3.7 | Agave 集群软件安装器 | 自动化部署 |
+| **agave-precompiles** | 2.3.7 | Solana 预编译程序 | 系统级程序 |
+| **agave-feature-set** | 2.3.7 | 运行时特性声明 | 特性门控管理 |
+| **agave-geyser-plugin-interface** | 2.3.7 | Geyser 插件系统接口 | 数据流插件开发 |
+
+**SVM 独立运行时**:
+```toml
+solana-svm = "2.3.7"  # 独立 SVM 运行时，支持链外交易处理
+```
+
+**SVM 使用场景**:
+- 链外服务：无需完整验证器的交易处理
+- 轻量客户端：状态通道和 rollups
+- 高性能应用：独立于验证器框架的流线型 API
+
+**多客户端环境**:
+- Agave：Anza 维护的主要验证器客户端
+- Firedancer：Jump Crypto 开发的高性能客户端（开发中）
+
+</details>
+
 #### 推荐版本 (2025年1月)
 ```toml
 # 生产环境 - 稳定版本
@@ -168,6 +199,47 @@ pinocchio-token = "0.3.0"
 
 **相关关键词**: spl-token, defi, amm, lending, governance
 
+### 网络和通信组件
+
+#### P2P 网络层
+| 组件名称 | 版本 | 功能描述 | 使用场景 |
+|----------|------|----------|----------|
+| **solana-gossip** | 2.3.7 | 节点间 gossip 协议 | 验证器节点间通信、集群发现 |
+| **solana-streamer** | 2.3.7 | 高性能数据流处理 | 高吞吐量数据传输、交易流处理 |
+| **solana-net-utils** | 2.3.7 | 网络工具和地址处理 | 网络配置、IP地址验证 |
+
+#### 连接管理
+| 组件名称 | 版本 | 功能描述 | 优势 |
+|----------|------|----------|------|
+| **solana-connection-cache** | 2.3.7 | RPC 连接缓存和池化 | 连接优化、减少开销 |
+| **solana-udp-client** | 2.3.7 | UDP 客户端实现 | 低延迟交易提交 |
+| **solana-quic-client** | 2.3.7 | QUIC 客户端实现 | 高性能连接、更好的网络适应性 |
+
+**相关关键词**: networking, p2p, gossip, streaming, connection-pooling
+
+### 程序接口库
+
+#### 系统程序接口
+| 接口名称 | 版本 | 功能描述 | 使用场景 |
+|----------|------|----------|----------|
+| **solana-system-interface** | 2.3.7 | 系统程序标准接口 | 账户创建、SOL转账 |
+| **solana-compute-budget-interface** | 2.3.7 | 计算预算程序接口 | 交易费用控制、CU限制 |
+| **solana-address-lookup-table-interface** | 2.3.7 | 地址查找表程序接口 | 地址压缩、交易优化 |
+
+#### 共识和质押接口
+| 接口名称 | 版本 | 功能描述 | 应用领域 |
+|----------|------|----------|----------|
+| **solana-vote-interface** | 2.3.7 | 投票程序接口 | 验证器投票、共识参与 |
+| **solana-stake-interface** | 2.3.7 | 质押程序接口 | 代币质押、委托管理 |
+| **solana-feature-gate-interface** | 2.3.7 | 特性门控接口 | 网络升级、特性激活 |
+
+**接口库使用指南**：
+- **何时使用**：需要与 Solana 原生程序交互时
+- **与 Program 库区别**：Interface 提供标准调用接口，Program 提供完整实现
+- **推荐场景**：应用层使用 interface 简化调用，链上程序通常不需要
+
+**相关关键词**: interfaces, system-programs, consensus, staking, feature-gates
+
 ### 实时数据流
 
 #### Yellowstone gRPC - 高性能数据流
@@ -198,6 +270,202 @@ async fn connect_to_geyser() -> Result<GeyserGrpcClient, Box<dyn std::error::Err
 </details>
 
 **相关关键词**: yellowstone-grpc, geyser, streaming, real-time, data-flow
+
+### 序列化库完整对比
+
+| 序列化格式 | 性能 | 大小 | 可读性 | 链上支持 | 使用场景 |
+|------------|------|------|--------|----------|----------|
+| **Borsh** | 极高 | 最小 | 低 | ✅ 原生 | 链上程序、状态存储 |
+| **Serde JSON** | 中等 | 大 | 高 | ❌ 不支持 | RPC接口、配置文件 |
+| **Bincode** | 高 | 小 | 中等 | ⚠️ 有限 | SDK传输、测试 |
+| **MessagePack** | 高 | 小 | 中等 | ❌ 不支持 | 客户端缓存、网络 |
+
+<details>
+<summary>序列化库详细配置和使用（点击展开）</summary>
+
+#### Borsh（链上程序推荐）
+```toml
+borsh = { version = "1.5", features = ["derive"] }
+```
+- **优势**: 二进制大小小、反序列化快、网络传输友好
+- **劣势**: 可读性差、调试困难
+- **适用**: 链上账户数据、CPI 调用、状态存储
+
+#### Serde JSON（RPC 接口推荐）
+```toml
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+```
+- **优势**: 易于调试、前端集成友好、RPC 标准
+- **劣势**: 体积较大、解析速度相对慢
+- **适用**: RPC 响应、配置文件、API 交互
+
+#### Bincode（平衡选择）
+```toml
+serde = { version = "1.0", features = ["derive"] }
+bincode = "1.3"
+```
+- **优势**: 比 JSON 小、比 Borsh 易用、Serde 兼容
+- **适用**: 共享库、SDK 内部传输、测试数据
+
+#### MessagePack（高效可读）
+```toml
+serde = { version = "1.0", features = ["derive"] }
+rmp-serde = "1.3"
+```
+- **优势**: 压缩效率好、支持复杂类型、跨语言
+- **适用**: 客户端存储、网络传输、缓存系统
+
+</details>
+
+### 数学库详解
+
+| 库 | 精度类型 | 性能 | 内存 | 链上支持 | 推荐场景 |
+|----|---------|------|------|----------|----------|
+| **spl-math** | 定点 U192 | 极高 | 极小 | ✅ 原生 | 链上程序必选 |
+| **rust_decimal** | 28位小数 | 高 | 小 | ⚠️ 需转换 | 金融应用、UI显示 |
+| **num-bigint** | 任意精度 | 中等 | 大 | ⚠️ 有限 | 特殊算法、加密 |
+
+<details>
+<summary>数学库配置和组合策略（点击展开）</summary>
+
+#### SPL Math（链上专用）
+```toml
+spl-math = "0.3.0"
+```
+- **精度**: U192 定点数，28位有效数字
+- **性能**: 极高，专为链上优化
+- **适用**: DEX定价、AMM计算、链上数学
+
+#### Rust Decimal（金融级）
+```toml
+rust_decimal = "1.0"
+```
+- **精度**: 28位小数精度
+- **性能**: 高，CPU优化
+- **适用**: 金融计算、价格展示、账务系统
+
+#### Num BigInt（大数运算）
+```toml
+num-bigint = "0.4"
+num-traits = "0.2"
+```
+- **精度**: 任意精度
+- **适用**: 大数运算、加密算法、特殊计算
+
+#### 数学库组合策略
+```toml
+# 链上程序推荐组合
+spl-math = "0.3.0"                    # 主要计算引擎
+
+# 应用层推荐组合  
+spl-math = "0.3.0"                    # 链上兼容计算
+rust_decimal = "1.0"                  # 用户界面显示
+num-bigint = "0.4"                    # 特殊场景大数运算
+```
+
+</details>
+
+### 开发工具库
+
+#### 日志和调试工具
+| 工具名称 | 版本 | 功能描述 | 使用场景 |
+|----------|------|----------|----------|
+| **solana-logger** | 2.3.7 | 标准化日志系统 | 统一日志格式、结构化日志 |
+| **solana-clap-utils** | 2.3.7 | CLI 工具构建辅助 | CLI 参数解析、Solana 风格命令行 |
+
+#### 测试和开发支持
+| 工具名称 | 版本 | 功能描述 | 推荐场景 |
+|----------|------|----------|----------|
+| **solana-program-test** | 2.3.7 | 程序测试框架 | 单元测试框架、模拟区块链环境 |
+| **solana-banks-client** | 2.3.7 | Banks 客户端 | 集成测试、真实交易模拟 |
+| **solana-banks-server** | 2.3.7 | Banks 服务器 | 测试环境搭建 |
+| **solana-cli-config** | 2.3.7 | CLI 配置管理 | 配置文件处理 |
+
+#### 运行时和核心组件
+| 组件名称 | 版本 | 功能描述 | 应用价值 |
+|----------|------|----------|----------|
+| **solana-runtime-transaction** | 2.3.7 | 运行时交易处理 | 交易执行优化 |
+| **solana-frozen-abi** | 3.0.0 | ABI 冻结和版本控制 | 接口稳定性保证、版本兼容检查 |
+| **solana-sanitize** | 2.3.7 | 数据清理和验证 | 输入验证、安全检查 |
+
+**相关关键词**: development-tools, testing, logging, runtime, abi-compatibility
+
+### 迁移和配置指南
+
+#### 常见依赖问题解决
+<details>
+<summary>版本冲突和编译优化配置（点击展开）</summary>
+
+**版本冲突解决**:
+```toml
+# 使用 patch 统一版本
+[patch.crates-io]
+solana-program = { version = "=2.3.7" }
+```
+
+**编译优化配置**:
+```toml
+[profile.release]
+lto = "fat"
+codegen-units = 1
+strip = true
+opt-level = "z"
+```
+
+**从 solana-labs 迁移到 anza-xyz**:
+```toml
+# 旧版本 git 依赖
+# solana-program = { git = "https://github.com/solana-labs/solana" }
+
+# 新版本 git 依赖
+solana-program = { git = "https://github.com/anza-xyz/agave" }
+```
+
+</details>
+
+#### 测试依赖配置
+<details>
+<summary>单元测试和集成测试配置（点击展开）</summary>
+
+**单元测试**:
+```toml
+[dev-dependencies]
+solana-program-test = "=2.3.7"
+solana-sdk = "=2.3.7"
+tokio = { version = "1.41", features = ["test-util"] }
+```
+
+**集成测试**:
+```toml
+[dev-dependencies]
+solana-test-validator = "=2.3.7"
+solana-cli-config = "=2.3.7"
+```
+
+**生产级 Anchor 程序完整配置**:
+```toml
+[package]
+name = "my-anchor-program"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+anchor-lang = "0.30.1"
+anchor-spl = "0.30.1"
+
+[features]
+default = []
+cpi = ["no-entrypoint"]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+idl-build = ["anchor-lang/idl-build"]
+```
+
+</details>
+
+**相关关键词**: migration, testing, configuration, optimization, troubleshooting
 
 ## 交易发送服务
 
