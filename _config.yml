@@ -1,0 +1,46 @@
+# Jekyll 配置
+theme: jekyll-theme-minimal
+title: Awesome Solana Libraries
+description: 全面的 Solana 生态系统知识库
+lang: zh-CN
+encoding: UTF-8
+
+# 中文支持
+markdown: kramdown
+kramdown:
+  input: GFM
+  auto_ids: true
+  hard_wrap: false
+  syntax_highlighter: rouge
+
+# 插件
+plugins:
+  - jekyll-relative-links
+  - jekyll-seo-tag
+  - jekyll-sitemap
+
+# 相对链接支持
+relative_links:
+  enabled: true
+  collections: true
+
+# 包含文件
+include:
+  - README.md
+  - transaction-services
+  - arbitrage
+  - dependencies
+  - dex-market-makers
+  - mcp
+  - resources
+  - rpc
+
+# 排除文件
+exclude:
+  - .git
+  - .claude
+  - node_modules
+  - vendor
+  - Gemfile
+  - Gemfile.lock
+  - setup-pages.sh
