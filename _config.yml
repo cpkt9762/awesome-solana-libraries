@@ -20,6 +20,10 @@ plugins:
   - jekyll-seo-tag
   - jekyll-sitemap
 
+# Sass 配置
+sass:
+  style: compressed
+
 # 相对链接支持
 relative_links:
   enabled: true
