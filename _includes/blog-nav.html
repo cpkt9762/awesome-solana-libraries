@@ -6,8 +6,8 @@
     </div>
     
     <ul class="nav-menu">
-      <li><a href="{{ site.baseurl }}/" {% if page.url == "/" %}class="active"{% endif %}>知识库首页</a></li>
-      <li><a href="{{ site.baseurl }}/blog" {% if page.url contains "/blog" %}class="active"{% endif %}>博客</a></li>
+      <li><a href="{{ site.baseurl }}/" {% if page.url == "/" or page.url == "/index.html" %}class="active"{% endif %}>博客首页</a></li>
+      <li><a href="{{ site.baseurl }}/knowledge-base" {% if page.url contains "/knowledge-base" %}class="active"{% endif %}>知识库</a></li>
       <li><a href="{{ site.baseurl }}/categories" {% if page.url contains "/categories" %}class="active"{% endif %}>分类</a></li>
       <li><a href="{{ site.baseurl }}/tags" {% if page.url contains "/tags" %}class="active"{% endif %}>标签</a></li>
       <li><a href="https://github.com/cpkt9762/awesome-solana-libraries" target="_blank">GitHub</a></li>

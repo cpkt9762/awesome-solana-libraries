@@ -1,3 +1,12 @@
+---
+layout: default
+title: "Solana 生态系统知识库"
+description: "全面的Solana生态系统知识库，收集和整理Solana开发中的各种资源、工具和最佳实践"
+permalink: /knowledge-base/
+---
+
+{% include blog-nav.html %}
+
 # Awesome Solana Libraries
 
 一个全面的Solana生态系统知识库，收集和整理Solana开发中的各种资源、工具和最佳实践。

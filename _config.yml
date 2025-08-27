@@ -44,10 +44,10 @@ date_format: "%Y年%m月%d日"
 
 # 分页配置 (基础版本，GitHub Pages 原生支持)
 paginate: 5
-paginate_path: "/blog/page:num/"
+paginate_path: "/page:num/"
 
 # 博客相关路径
-blog_path: "/blog"
+blog_path: "/"
 categories_path: "/categories"
 tags_path: "/tags"
 
