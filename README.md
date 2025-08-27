@@ -68,7 +68,7 @@
 
 #### Agave 完整组件生态
 
-<details>
+<details markdown="1">
 <summary>Agave 核心组件详细列表（点击展开）</summary>
 
 | 组件名称 | 版本 | 功能描述 | 使用场景 |
@@ -120,7 +120,7 @@ solana-program = "=3.0.0"
 | **Anchor** | 快速开发 | 开发友好、生态完善 | 性能开销、体积大 | 低 |
 | **Pinocchio** | 极致优化 | 零成本抽象、最小体积 | 学习曲线陡、生态小 | 高 |
 
-<details>
+<details markdown="1">
 <summary>详细配置指南（点击展开）</summary>
 
 #### Native 程序依赖
@@ -248,7 +248,7 @@ pinocchio-token = "0.3.0"
 - **高级过滤** - 提交级别过滤、特定账户监控、交易类型过滤、账户所有者过滤
 - **标签**: geyser, grpc, real-time, streaming
 
-<details>
+<details markdown="1">
 <summary>Yellowstone gRPC 配置示例（点击展开）</summary>
 
 ```toml
@@ -280,7 +280,7 @@ async fn connect_to_geyser() -> Result<GeyserGrpcClient, Box<dyn std::error::Err
 | **Bincode** | 高 | 小 | 中等 | ⚠️ 有限 | SDK传输、测试 |
 | **MessagePack** | 高 | 小 | 中等 | ❌ 不支持 | 客户端缓存、网络 |
 
-<details>
+<details markdown="1">
 <summary>序列化库详细配置和使用（点击展开）</summary>
 
 #### Borsh（链上程序推荐）
@@ -326,7 +326,7 @@ rmp-serde = "1.3"
 | **rust_decimal** | 28位小数 | 高 | 小 | ⚠️ 需转换 | 金融应用、UI显示 |
 | **num-bigint** | 任意精度 | 中等 | 大 | ⚠️ 有限 | 特殊算法、加密 |
 
-<details>
+<details markdown="1">
 <summary>数学库配置和组合策略（点击展开）</summary>
 
 #### SPL Math（链上专用）
@@ -421,7 +421,7 @@ num-bigint = "0.4"                    # 特殊场景大数运算
 | **Mocha + Chai** | 标准 | 低 | 🌟🌟🌟⚪⚪ | Anchor 默认设置 |
 | **Vitest + Bankrun** | 高 | 中等 | 🌟🌟🌟⚪⚪ | 现代 Vite 生态 |
 
-<details>
+<details markdown="1">
 <summary>测试框架配置示例（点击展开）</summary>
 
 #### LiteSVM 配置（推荐）
@@ -538,7 +538,7 @@ let program = test_context.deploy_program("path/to/program.so").await;
 ### 迁移和配置指南
 
 #### 常见依赖问题解决
-<details>
+<details markdown="1">
 <summary>版本冲突和编译优化配置（点击展开）</summary>
 
 **版本冲突解决**:
@@ -569,7 +569,7 @@ solana-program = { git = "https://github.com/anza-xyz/agave" }
 </details>
 
 #### 测试依赖配置
-<details>
+<details markdown="1">
 <summary>单元测试和集成测试配置（点击展开）</summary>
 
 **单元测试**:
@@ -636,7 +636,7 @@ idl-build = ["anchor-lang/idl-build"]
 | **OKX Web3** | 企业级基础设施 | 钱包即服务、DEX API | 中等 | [web3.okx.com](https://web3.okx.com/) | cex, enterprise, wallet-as-a-service |
 | **GMGN** | Memecoin交易 | 新币发现、交易平台 | 低 | 官网待确认 | memecoin, trading, discovery |
 
-<details>
+<details markdown="1">
 <summary>OKX Web3 API 配置示例（点击展开）</summary>
 
 ```typescript
@@ -698,7 +698,7 @@ const OKX_CONFIG = {
 | **jupiter-arbitrage** | JavaScript | Jupiter聚合器套利 | 低 | [GitHub](https://github.com/jup-ag/jupiter-arbitrage) | jupiter, aggregator |
 | **solana-triangular-arbitrage** | Rust | 三角套利专用机器人 | 高 | [GitHub](https://github.com/soma-labs/solana-triangular-arbitrage) | triangular, advanced |
 
-<details>
+<details markdown="1">
 <summary>套利机器人配置示例（点击展开）</summary>
 
 ```rust
