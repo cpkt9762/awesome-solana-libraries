@@ -1,0 +1,124 @@
+<!-- 博客导航菜单 -->
+<nav class="blog-nav">
+  <div class="nav-container">
+    <div class="nav-brand">
+      <a href="/" class="brand-link">🚀 Awesome Solana</a>
+    </div>
+    
+    <ul class="nav-menu">
+      <li><a href="/" {% if page.url == "/" %}class="active"{% endif %}>知识库首页</a></li>
+      <li><a href="/blog" {% if page.url contains "/blog" %}class="active"{% endif %}>博客</a></li>
+      <li><a href="/categories" {% if page.url contains "/categories" %}class="active"{% endif %}>分类</a></li>
+      <li><a href="/tags" {% if page.url contains "/tags" %}class="active"{% endif %}>标签</a></li>
+      <li><a href="https://github.com/cpkt9762/awesome-solana-libraries" target="_blank">GitHub</a></li>
+    </ul>
+    
+    <div class="nav-search">
+      <input type="search" placeholder="搜索..." class="search-input">
+    </div>
+  </div>
+</nav>
+
+<style>
+.blog-nav {
+  background: #24292e;
+  color: white;
+  padding: 1rem 0;
+  margin-bottom: 2rem;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.nav-brand .brand-link {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  gap: 1.5rem;
+}
+
+.nav-menu a {
+  color: #f1f3f4;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.nav-menu a:hover,
+.nav-menu a.active {
+  background-color: #0366d6;
+  color: white;
+}
+
+.nav-search {
+  flex: 0 0 200px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #444;
+  border-radius: 4px;
+  background: #2f363d;
+  color: white;
+}
+
+.search-input::placeholder {
+  color: #959da5;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #0366d6;
+  box-shadow: 0 0 0 2px rgba(3, 102, 214, 0.3);
+}
+
+@media (max-width: 768px) {
+  .nav-container {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
+  
+  .nav-menu {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  
+  .nav-search {
+    flex: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-container {
+    padding: 0 1rem;
+  }
+  
+  .nav-menu {
+    font-size: 0.9rem;
+  }
+  
+  .nav-menu a {
+    padding: 0.4rem 0.8rem;
+  }
+}
+</style>

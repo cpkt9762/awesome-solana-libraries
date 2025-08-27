@@ -1,0 +1,309 @@
+---
+layout: default
+title: "文章标签"
+permalink: /tags/
+---
+
+{% include blog-nav.html %}
+
+<div class="tags-page">
+  <header class="page-header">
+    <h1>文章标签</h1>
+    <p>通过标签快速找到相关技术内容</p>
+  </header>
+
+  <!-- 标签云 -->
+  {% assign tags = site.tags | sort %}
+  {% if tags.size > 0 %}
+    <section class="tag-cloud-section">
+      <h2>标签云</h2>
+      <div class="tag-cloud">
+        {% for tag in tags %}
+          {% assign tag_size = tag[1].size %}
+          <a href="#{{ tag[0] | slugify }}" 
+             class="tag-cloud-item"
+             style="font-size: {{ tag_size | times: 0.3 | plus: 1 }}em;"
+             data-count="{{ tag_size }}">
+            {{ tag[0] }}
+          </a>
+        {% endfor %}
+      </div>
+    </section>
+
+    <!-- 标签详细列表 -->
+    <section class="tags-list-section">
+      <h2>标签详情</h2>
+      <div class="tags-container">
+        {% for tag in tags %}
+          <div class="tag-section" id="{{ tag[0] | slugify }}">
+            <header class="tag-header">
+              <h3>
+                <span class="tag-symbol">#</span>
+                {{ tag[0] }}
+                <span class="post-count">{{ tag[1].size }}</span>
+              </h3>
+            </header>
+            
+            <div class="posts-with-tag">
+              {% for post in tag[1] %}
+                <article class="post-item">
+                  <h4>
+                    <a href="{{ post.url }}">{{ post.title }}</a>
+                  </h4>
+                  <div class="post-meta">
+                    <time datetime="{{ post.date | date_to_xmlschema }}">
+                      {{ post.date | date: site.date_format | default: "%Y年%m月%d日" }}
+                    </time>
+                    
+                    {% if post.categories.size > 0 %}
+                      <span class="post-categories">
+                        分类: 
+                        {% for category in post.categories limit: 2 %}
+                          {{ category }}{% unless forloop.last %}, {% endunless %}
+                        {% endfor %}
+                      </span>
+                    {% endif %}
+                  </div>
+                  
+                  {% if post.excerpt %}
+                    <p class="post-excerpt">{{ post.excerpt | strip_html | truncate: 120 }}</p>
+                  {% endif %}
+                </article>
+              {% endfor %}
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    </section>
+  {% else %}
+    <div class="no-tags">
+      <p>暂无标签文章。</p>
+      <a href="/blog">浏览所有文章 →</a>
+    </div>
+  {% endif %}
+</div>
+
+<style>
+.tags-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  border-bottom: 1px solid #e1e4e8;
+  padding-bottom: 2rem;
+}
+
+.page-header h1 {
+  margin-bottom: 0.5rem;
+  color: #24292e;
+}
+
+.page-header p {
+  color: #6a737d;
+  font-size: 1.1rem;
+}
+
+.tag-cloud-section {
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: #f6f8fa;
+  border-radius: 8px;
+  border: 1px solid #e1e4e8;
+}
+
+.tag-cloud-section h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  color: #24292e;
+}
+
+.tag-cloud {
+  line-height: 2;
+  text-align: center;
+}
+
+.tag-cloud-item {
+  display: inline-block;
+  color: #0366d6;
+  text-decoration: none;
+  padding: 0.3rem 0.6rem;
+  margin: 0.2rem;
+  background: rgba(3, 102, 214, 0.1);
+  border-radius: 4px;
+  border: 1px solid rgba(3, 102, 214, 0.2);
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.tag-cloud-item:hover {
+  background: #0366d6;
+  color: white;
+  transform: scale(1.05);
+  box-shadow: 0 2px 8px rgba(3, 102, 214, 0.3);
+}
+
+.tag-cloud-item::after {
+  content: attr(data-count);
+  font-size: 0.7em;
+  background: rgba(0, 0, 0, 0.2);
+  color: white;
+  padding: 0.1rem 0.3rem;
+  border-radius: 10px;
+  margin-left: 0.3rem;
+  vertical-align: super;
+}
+
+.tags-list-section h2 {
+  margin-bottom: 2rem;
+  color: #24292e;
+}
+
+.tags-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.tag-section {
+  border: 1px solid #e1e4e8;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+.tag-header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e1e4e8;
+}
+
+.tag-header h3 {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.tag-symbol {
+  font-size: 1.2em;
+  opacity: 0.8;
+}
+
+.post-count {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.3rem 0.8rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  margin-left: auto;
+}
+
+.posts-with-tag {
+  padding: 0;
+}
+
+.post-item {
+  padding: 1.5rem;
+  border-bottom: 1px solid #f1f1f1;
+}
+
+.post-item:last-child {
+  border-bottom: none;
+}
+
+.post-item h4 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.post-item h4 a {
+  color: #24292e;
+  text-decoration: none;
+}
+
+.post-item h4 a:hover {
+  color: #0366d6;
+}
+
+.post-meta {
+  font-size: 0.9rem;
+  color: #6a737d;
+  margin-bottom: 0.8rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.post-excerpt {
+  color: #24292e;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.no-tags {
+  text-align: center;
+  color: #6a737d;
+  padding: 3rem;
+}
+
+.no-tags a {
+  color: #0366d6;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.no-tags a:hover {
+  text-decoration: underline;
+}
+
+/* 移动端响应式 */
+@media (max-width: 768px) {
+  .tags-page {
+    padding: 1rem;
+  }
+  
+  .tag-cloud-section {
+    padding: 1.5rem;
+  }
+  
+  .tag-cloud {
+    text-align: left;
+  }
+  
+  .tag-cloud-item {
+    font-size: 0.9em !important;
+    padding: 0.2rem 0.4rem;
+    margin: 0.1rem;
+  }
+  
+  .tag-header {
+    padding: 1rem;
+  }
+  
+  .tag-header h3 {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .post-count {
+    margin-left: 0;
+    align-self: flex-start;
+  }
+  
+  .post-item {
+    padding: 1rem;
+  }
+  
+  .post-meta {
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+}
+</style>

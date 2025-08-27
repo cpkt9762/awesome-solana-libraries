@@ -19,10 +19,40 @@ plugins:
   - jekyll-relative-links
   - jekyll-seo-tag
   - jekyll-sitemap
+  - jekyll-feed
 
 # Sass 配置
 sass:
   style: compressed
+
+# 博客配置
+blog:
+  enabled: true
+
+# 作者信息
+author:
+  name: "Awesome Solana Team"
+  email: "noreply@awesome-solana.com"
+  bio: "专注于 Solana 生态系统的技术分享和知识传播"
+  avatar: "/assets/images/avatar.png"
+
+# 时区和日期格式
+timezone: Asia/Shanghai
+date_format: "%Y年%m月%d日"
+
+# 分页配置 (基础版本，GitHub Pages 原生支持)
+paginate: 5
+paginate_path: "/blog/page:num/"
+
+# 博客相关路径
+blog_path: "/blog"
+categories_path: "/categories"
+tags_path: "/tags"
+
+# Feed 配置
+feed:
+  posts_limit: 20
+  excerpt_only: false
 
 # 相对链接支持
 relative_links:

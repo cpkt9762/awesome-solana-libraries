@@ -1,0 +1,125 @@
+---
+layout: blog
+title: "Solana 技术博客"
+description: "深度分享 Solana 开发技术、工具使用指南和生态系统最佳实践"
+permalink: /blog/
+---
+
+{% include blog-nav.html %}
+
+<div class="blog-intro">
+  <div class="intro-content">
+    <h2>欢迎来到 Solana 技术博客</h2>
+    <p>这里我们分享 Solana 生态系统的最新技术动态、开发工具使用经验、最佳实践案例，以及深度技术解析。无论你是刚接触 Solana 的新手，还是经验丰富的区块链开发者，都能在这里找到有价值的内容。</p>
+    
+    <div class="featured-topics">
+      <h3>热门话题</h3>
+      <div class="topic-grid">
+        <div class="topic-card">
+          <h4>🚀 开发入门</h4>
+          <p>Solana 开发环境搭建、基础概念讲解</p>
+        </div>
+        <div class="topic-card">
+          <h4>🛠️ 工具使用</h4>
+          <p>开发工具、测试框架、部署工具详解</p>
+        </div>
+        <div class="topic-card">
+          <h4>💡 最佳实践</h4>
+          <p>性能优化、安全编程、架构设计</p>
+        </div>
+        <div class="topic-card">
+          <h4>🔍 深度解析</h4>
+          <p>源码分析、协议解读、技术原理</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.blog-intro {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 3rem 0;
+  margin: -2rem -2rem 2rem -2rem;
+  text-align: center;
+}
+
+.intro-content {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+.blog-intro h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.blog-intro p {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+  opacity: 0.9;
+}
+
+.featured-topics {
+  margin-top: 2rem;
+}
+
+.featured-topics h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.topic-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+
+.topic-card {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 1.5rem;
+  border-radius: 8px;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.topic-card h4 {
+  margin-bottom: 0.5rem;
+  font-size: 1.1rem;
+}
+
+.topic-card p {
+  font-size: 0.9rem;
+  margin: 0;
+  opacity: 0.8;
+}
+
+@media (max-width: 768px) {
+  .blog-intro {
+    padding: 2rem 0;
+    margin: -1rem -1rem 2rem -1rem;
+  }
+  
+  .blog-intro h2 {
+    font-size: 2rem;
+  }
+  
+  .blog-intro p {
+    font-size: 1rem;
+  }
+  
+  .topic-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .topic-card {
+    padding: 1rem;
+  }
+}
+</style>
