@@ -8,8 +8,6 @@ author: "Awesome Solana"
 excerpt: "深入对比 Solana 生态系统中的各种测试框架，包括 LiteSVM、Mollusk、Bankrun 等，帮助开发者选择最适合项目需求的测试工具。"
 ---
 
-# Solana 测试框架对比：选择最适合的测试工具
-
 ## 概述
 
 选择合适的测试框架对于 Solana 开发至关重要。本文将深入对比当前主流的测试框架，帮助你做出最佳选择。

@@ -8,8 +8,6 @@ author: "Awesome Solana"
 excerpt: "深入对比 Solana 三大主流 DEX 的做市商工具和策略，涵盖 AMM、集中流动性和订单簿模式，提供完整的技术集成和盈利策略指南。"
 ---
 
-# Solana DEX 做市商工具完全指南：Raydium、Orca、Phoenix 深度对比
-
 ## 概述
 
 Solana 生态系统拥有多样化的 DEX 架构，为做市商提供了丰富的机会。本文深入分析三大主流平台的做市商工具、策略和实现方案。
