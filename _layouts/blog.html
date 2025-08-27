@@ -18,7 +18,7 @@ layout: default
           <article class="post-preview">
             <header class="post-preview-header">
               <h2 class="post-preview-title">
-                <a href="{{ post.url }}">{{ post.title }}</a>
+                <a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a>
               </h2>
               <div class="post-preview-meta">
                 <time datetime="{{ post.date | date_to_xmlschema }}">
@@ -33,7 +33,7 @@ layout: default
                   <span class="post-categories">
                     • 分类: 
                     {% for category in post.categories limit: 2 %}
-                      <a href="{{ site.categories_path }}#{{ category | slugify }}">{{ category }}</a>
+                      <a href="{{ site.baseurl }}{{ site.categories_path }}#{{ category | slugify }}">{{ category }}</a>
                       {% unless forloop.last %}, {% endunless %}
                     {% endfor %}
                   </span>
@@ -58,7 +58,7 @@ layout: default
             {% endif %}
             
             <div class="post-preview-footer">
-              <a href="{{ post.url }}" class="read-more">阅读全文 →</a>
+              <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">阅读全文 →</a>
             </div>
           </article>
         {% endfor %}
@@ -331,24 +331,43 @@ layout: default
   .blog-container {
     grid-template-columns: 1fr;
     padding: 1rem;
+    gap: 2rem;
   }
   
   .blog-sidebar {
     order: -1;
+    border-bottom: 1px solid #e1e4e8;
+    padding-bottom: 2rem;
   }
   
   .widget {
     padding: 1rem;
+    margin-bottom: 1rem;
   }
 }
 
 @media (max-width: 768px) {
+  .blog-container {
+    padding: 0.5rem;
+    gap: 1.5rem;
+  }
+  
   .post-preview {
     padding: 1rem;
+    margin-bottom: 1rem;
   }
   
   .post-preview-title a {
     font-size: 1.2rem;
+    line-height: 1.4;
+  }
+  
+  .post-preview-meta {
+    font-size: 0.85rem;
+  }
+  
+  .widget {
+    padding: 0.75rem;
   }
 }
 </style>
