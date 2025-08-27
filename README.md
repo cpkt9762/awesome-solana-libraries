@@ -391,6 +391,150 @@ num-bigint = "0.4"                    # 特殊场景大数运算
 
 **相关关键词**: development-tools, testing, logging, runtime, abi-compatibility
 
+### 测试框架完整指南
+
+#### 高性能测试框架对比
+
+| 框架 | 性能 | 语言支持 | 维护状态 | 特殊功能 | 推荐场景 |
+|------|------|----------|----------|----------|----------|
+| **LiteSVM** | 极高 | Rust, TS/JS, Python | ✅ 活跃 | 轻量级 SVM，快速编译 | 替代 Bankrun 的首选 |
+| **Bankrun** | 10x 加速 | TS/JS | ⚠️ 已弃用 | 时间旅行，自定义账户数据 | 仍广泛使用（迁移中） |
+| **Mollusk** | 极高 | Rust | ✅ 活跃（Anza官方） | 最小化 SVM，计算单元分析 | Rust 测试首选 |
+| **solana-test-framework** | 高 | Rust | ✅ 活跃（Halborn） | 扩展 BanksClient，便利方法 | 集成测试增强 |
+| **solana-program-test** | 中等 | Rust | ✅ 官方维护 | BanksClient 基础框架 | 官方标准测试 |
+
+#### 专业测试工具
+
+| 工具名称 | 功能类型 | 版本/状态 | 专业用途 | 使用场景 |
+|----------|----------|----------|----------|----------|
+| **Mollusk Compute Unit Bencher** | 性能分析 | 活跃 | 计算单元使用量基准测试 | 性能优化，CU 成本分析 |
+| **Trdelnik** | 安全测试 | 活跃 | Anchor 程序模糊测试 | 安全审计，漏洞发现 |
+| **Wasmcov** | 覆盖率分析 | 2024版 | WebAssembly 覆盖率分析 | Wasm 程序覆盖率测试 |
+| **Anchor Coverage Tools** | 覆盖率分析 | 内置 | HTML/lcov 覆盖率报告 | Anchor 项目覆盖率 |
+
+#### JavaScript/TypeScript 测试生态
+
+| 组合方案 | 性能表现 | 设置难度 | 2025年推荐度 | 特点 |
+|----------|----------|----------|--------------|------|
+| **Jest + LiteSVM** | 极高 | 中等 | 🌟🌟🌟🌟🌟 | 现代推荐组合 |
+| **Jest + Bankrun** | 10x 加速 | 低 | 🌟🌟🌟🌟⚪ | 过渡方案（迁移中） |
+| **Mocha + Chai** | 标准 | 低 | 🌟🌟🌟⚪⚪ | Anchor 默认设置 |
+| **Vitest + Bankrun** | 高 | 中等 | 🌟🌟🌟⚪⚪ | 现代 Vite 生态 |
+
+<details>
+<summary>测试框架配置示例（点击展开）</summary>
+
+#### LiteSVM 配置（推荐）
+```toml
+[dev-dependencies]
+litesvm = "0.1.0"
+solana-sdk = "2.3.7"
+```
+
+```rust
+use litesvm::LiteSVM;
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    
+    #[test]
+    fn test_program() {
+        let mut svm = LiteSVM::new();
+        // 快速程序测试
+    }
+}
+```
+
+#### Mollusk 配置和基准测试
+```toml
+[dev-dependencies]
+mollusk-svm = "0.1.0"
+mollusk-svm-bencher = "0.0.5"
+```
+
+```rust
+use mollusk_svm::Mollusk;
+use mollusk_svm_bencher::MolluskComputeUnitBencher;
+
+let mollusk = Mollusk::new(&program_id, "my_program");
+MolluskComputeUnitBencher::new(mollusk)
+    .bench(("bench0", &instruction0, &accounts0))
+    .bench(("bench1", &instruction1, &accounts1))
+    .must_pass(true)
+    .out_dir("../target/benches")
+    .execute();
+```
+
+#### Jest + Bankrun 设置（过渡方案）
+```json
+// package.json
+{
+  "devDependencies": {
+    "anchor-bankrun": "^0.3.0",
+    "solana-bankrun": "^0.3.0",
+    "jest": "^29.0.0"
+  },
+  "scripts": {
+    "test": "jest"
+  }
+}
+```
+
+```typescript
+import { BankrunProvider, startAnchor } from "anchor-bankrun";
+
+describe("Program Tests", () => {
+  let provider: BankrunProvider;
+  
+  beforeEach(async () => {
+    const context = await startAnchor("", [{name: "my_program", programId}], []);
+    provider = new BankrunProvider(context);
+  });
+});
+```
+
+#### solana-test-framework 增强功能
+```toml
+[dev-dependencies]
+solana-test-framework = "0.1.0"  # Halborn 扩展版本
+```
+
+```rust
+use solana_test_framework::*;
+
+// 扩展的便利方法
+let account = test_context.get_account_with_anchor::<MyAccount>(&account_pubkey).await;
+let token_mint = test_context.create_token_mint(&mint_authority, 9).await;
+let program = test_context.deploy_program("path/to/program.so").await;
+```
+
+</details>
+
+#### 测试策略指南
+
+**框架选择决策树**：
+- **Rust 单元测试** → Mollusk（性能）或 solana-program-test（标准）
+- **Rust 集成测试** → solana-test-framework（Halborn 增强）
+- **JavaScript/TypeScript** → LiteSVM（推荐）或 Jest + Bankrun（过渡）
+- **性能基准测试** → Mollusk Compute Unit Bencher
+- **安全测试** → Trdelnik（模糊测试）
+- **覆盖率分析** → Anchor Coverage Tools 或 Wasmcov
+
+**最佳实践**：
+- **2025年推荐路径**: LiteSVM + Jest 组合替代传统 Bankrun 方案
+- **性能优化**: 使用 Mollusk 进行 CU 基准测试，优化计算单元使用
+- **安全第一**: 集成 Trdelnik 模糊测试到 CI/CD 流程
+- **覆盖率目标**: 链上程序代码覆盖率 >80%，集成测试覆盖率 >90%
+- **测试分层**: 单元测试（快速反馈）→ 集成测试（功能验证）→ 端到端测试（用户场景）
+
+**迁移建议**：
+- **从 Bankrun 迁移**: 逐步迁移到 LiteSVM，保持测试结构不变
+- **从 Mocha 迁移**: 迁移到 Jest 获得更好的并行执行和快照测试
+- **性能监控**: 使用 Mollusk bencher 持续跟踪性能退化
+
+**相关关键词**: testing-frameworks, litesvm, mollusk, bankrun, performance-testing, security-testing
+
 ### 迁移和配置指南
 
 #### 常见依赖问题解决
